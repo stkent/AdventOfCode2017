@@ -1,0 +1,3 @@
+rootProject.name = 'AdventOfCode2017'
+include 'day1'
+
