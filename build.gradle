@@ -40,6 +40,6 @@ subprojects {
         mainClassName = "Main"
 
         // Expose utilities to the project:
-        dependencies.compile project(":common")
+        dependencies.compile project(":utilities")
     }
 }
