@@ -1,6 +1,5 @@
 buildscript {
-    ext.kotlin_version     = '1.1.60'
-    ext.jvm_target_version = '1.8'
+    apply from: 'versions.gradle'
 
     repositories {
         jcenter()
@@ -12,10 +11,9 @@ buildscript {
 }
 
 subprojects {
-    apply plugin: 'kotlin'
-    apply plugin: 'application'
+    // Configuration common to all subprojects ---------------------------------------------------------------------- //
 
-    mainClassName = "Main"
+    apply plugin: 'kotlin'
 
     repositories {
         jcenter()
@@ -32,5 +30,16 @@ subprojects {
 
     compileTestKotlin {
         kotlinOptions.jvmTarget = "$jvm_target_version"
+    }
+
+    // Configuration common to all daily solution subprojects ------------------------------------------------------- //
+
+    if (name.startsWith('day')) {
+        // Make the project runnable (per https://docs.gradle.org/current/userguide/application_plugin.html):
+        apply plugin: 'application'
+        mainClassName = "Main"
+
+        // Expose utilities to the project:
+        dependencies.compile project(":common")
     }
 }
