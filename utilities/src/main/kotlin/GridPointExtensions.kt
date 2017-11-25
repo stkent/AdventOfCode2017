@@ -1,19 +1,21 @@
-fun Pair<Int, Int>.neighbors4(): Set<Pair<Int, Int>> = setOf(
+typealias GridPoint = Pair<Int, Int>
+
+fun GridPoint.neighbors4(): Set<GridPoint> = setOf(
     copy(first + 1, second),
     copy(first - 1, second),
     copy(first, second + 1),
     copy(first, second - 1)
 )
 
-fun Pair<Int, Int>.neighbors8(): Set<Pair<Int, Int>> = neighbors4().union(setOf(
+fun GridPoint.neighbors8(): Set<GridPoint> = neighbors4().union(setOf(
     copy(first + 1, second + 1),
     copy(first + 1, second - 1),
     copy(first - 1, second - 1),
     copy(first - 1, second + 1)
 ))
 
-fun Pair<Int, Int>.l1DistanceFrom(target: Pair<Int, Int>): Int =
+fun GridPoint.l1DistanceFrom(target: GridPoint): Int =
     Math.abs(first - target.first) + Math.abs(second - target.second)
 
-fun Pair<Int, Int>.l2DistanceFrom(target: Pair<Int, Int>): Double =
+fun GridPoint.l2DistanceFrom(target: GridPoint): Double =
     Math.hypot((first - target.first).toDouble(), (second - target.second).toDouble())
