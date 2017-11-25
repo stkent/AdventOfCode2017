@@ -24,7 +24,7 @@ fun <E> Collection<E>.highestFrequencyElements(): Set<E> {
   val elementCounts = elementCounts()
   val highestFrequency = elementCounts.map { it.value }.max()
 
-  return elementCounts()
+  return elementCounts
       .filter { it.value == highestFrequency }
       .map { it.key }
       .toSet()
@@ -36,7 +36,7 @@ fun <E> Collection<E>.lowestFrequencyElements(): Set<E> {
   val elementCounts = elementCounts()
   val lowestFrequency = elementCounts.map { it.value }.min()
 
-  return elementCounts()
+  return elementCounts
       .filter { it.value == lowestFrequency }
       .map { it.key }
       .toSet()
