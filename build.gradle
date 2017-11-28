@@ -1,10 +1,9 @@
 buildscript {
-    ext.kotlin_version      = '1.2.0-rc-84'
+    ext.kotlin_version      = '1.2.0'
     ext.kotlin_test_version = '2.0.7'
     ext.jvm_target_version  = '1.8'
 
     repositories {
-        maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
         jcenter()
     }
 
@@ -19,12 +18,11 @@ subprojects {
     apply plugin: 'kotlin'
 
     repositories {
-        maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
         jcenter()
     }
 
     dependencies {
-        compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
         testCompile 'io.kotlintest:kotlintest:2.0.7'
     }
 
