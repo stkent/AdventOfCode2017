@@ -4,7 +4,7 @@ buildscript {
     ext.jvm_target_version  = '1.8'
 
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -18,7 +18,7 @@ subprojects {
     apply plugin: 'kotlin'
 
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
