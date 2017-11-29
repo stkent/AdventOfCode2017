@@ -1,3 +1,6 @@
+import kotlin.math.abs
+import kotlin.math.hypot
+
 typealias GridPoint = Pair<Int, Int>
 
 fun GridPoint.neighbors4(): Set<GridPoint> = setOf(
@@ -15,7 +18,7 @@ fun GridPoint.neighbors8(): Set<GridPoint> = neighbors4().union(setOf(
 ))
 
 fun GridPoint.l1DistanceFrom(target: GridPoint): Int =
-    Math.abs(first - target.first) + Math.abs(second - target.second)
+    abs(first - target.first) + abs(second - target.second)
 
 fun GridPoint.l2DistanceFrom(target: GridPoint): Double =
-    Math.hypot((first - target.first).toDouble(), (second - target.second).toDouble())
+    hypot((first - target.first).toDouble(), (second - target.second).toDouble())
