@@ -3,19 +3,18 @@ class CaptchaCalculator(private val input: String) {
   private val n = input.length
 
   fun getSolutionAdjacentPairs(): Int {
-    return (0 until n)
-        .map { Pair(input[it], input[(it + 1).rem(n)]) }
-        .filter { it.first == it.second }
-        .map { Integer.parseInt("${it.first}") }
-        .sum()
+    return getSolutionWithOffset(1)
   }
 
   fun getSolutionOppositePairs(): Int {
+    return getSolutionWithOffset(n / 2)
+  }
+
+  private fun getSolutionWithOffset(offset: Int): Int {
     return (0 until n)
-        .map { Pair(input[it], input[(it + n / 2).rem(n)]) }
+        .map { Pair(input[it], input[(it + offset).rem(n)]) }
         .filter { it.first == it.second }
-        .map { Integer.parseInt("${it.first}") }
-        .sum()
+        .sumBy { Integer.parseInt("${it.first}") }
   }
 
 }
