@@ -41,3 +41,14 @@ fun <E> Collection<E>.lowestFrequencyElements(): Set<E> {
       .map { it.key }
       .toSet()
 }
+
+
+fun <E> Collection<E>.pairs(): Set<Pair<E, E>> {
+  require(size >= 2) { "This method can only be called on collections containing at least 2 elements." }
+
+  if (size == 2) return setOf(Pair(first(), last()))
+
+  val head = first()
+  val tail = drop(1)
+  return tail.map { Pair(head, it) }.union(tail.pairs())
+}
