@@ -6,8 +6,8 @@ class Spreadsheet(rawData: List<String>) {
 
   val sumOfDivisibleEntries by lazy {
     splitData.sumBy { row ->
-      val divisiblePair = row.pairs().find { it.max().rem(it.min()) == 0 }!!
-      return@sumBy divisiblePair.max() / divisiblePair.min()
+      val divisiblePair = row.unorderedPairs().find { it.max()!!.rem(it.min()!!) == 0 }!!
+      return@sumBy divisiblePair.max()!! / divisiblePair.min()!!
     }
   }
 

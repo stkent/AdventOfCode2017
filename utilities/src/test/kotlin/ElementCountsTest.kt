@@ -1,7 +1,7 @@
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.BehaviorSpec
 
-class ElementCountsSpec : BehaviorSpec({
+class ElementCountsTest : BehaviorSpec({
 
   Given("an empty list") {
     val list = emptyList<Int>()
