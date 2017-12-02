@@ -4,9 +4,11 @@ class Spreadsheet(rawData: List<String>) {
 
   val checksum = splitData.sumBy { row -> row.max()!! - row.min()!! }
 
-  val sumOfDivisibleEntries = splitData.sumBy { row ->
-    val divisiblePair = row.pairs().find { it.max().rem(it.min()) == 0 }!!
-    return@sumBy divisiblePair.max() / divisiblePair.min()
+  val sumOfDivisibleEntries by lazy {
+    splitData.sumBy { row ->
+      val divisiblePair = row.pairs().find { it.max().rem(it.min()) == 0 }!!
+      return@sumBy divisiblePair.max() / divisiblePair.min()
+    }
   }
 
 }
