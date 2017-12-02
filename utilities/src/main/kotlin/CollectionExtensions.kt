@@ -1,3 +1,9 @@
+import org.apache.commons.collections4.Bag
+import org.apache.commons.collections4.MultiSet
+import org.apache.commons.collections4.bag.HashBag
+import org.apache.commons.collections4.bag.TreeBag
+import org.apache.commons.collections4.multiset.HashMultiSet
+
 fun <E> Collection<E>.permutations(): Set<List<E>> {
   if (isEmpty()) return emptySet()
 
@@ -43,21 +49,33 @@ fun <E> Collection<E>.lowestFrequencyElements(): Set<E> {
 }
 
 
-fun <E> Collection<E>.unorderedPairs(): Set<Set<E>> {
+fun <E> Collection<E>.unorderedPairs(): MultiSet<Set<E>> {
   check(size >= 2) { "This method can only be called on collections containing at least 2 elements." }
 
-  if (size == 2) return setOf(toSet())
+  val result = HashMultiSet<Set<E>>()
+
+  if (size == 2) {
+    result.add(setOf(first(), last()))
+    return result
+  }
 
   val head = first()
   val tail = drop(1)
-  return tail.map { setOf(head, it) }.union(tail.unorderedPairs())
+  result.addAll(tail.map { setOf(head, it) })
+  result.addAll(tail.unorderedPairs())
+  return result
 }
 
-fun <E> Collection<E>.orderedPairs(): Set<Pair<E, E>> {
+fun <E> Collection<E>.orderedPairs(): MultiSet<Pair<E, E>> {
   val unorderedPairs = unorderedPairs()
 
-  return unorderedPairs.map {
+  val result = HashMultiSet<Pair<E, E>>()
+
+  unorderedPairs.forEach {
     val orderedPair = Pair(it.first(), it.last())
-    return@map setOf(orderedPair, orderedPair.flip())
-  }.reduce { set1, set2 -> set1.union(set2) }
+    result.add(orderedPair)
+    result.add(orderedPair.flip())
+  }
+
+  return result
 }

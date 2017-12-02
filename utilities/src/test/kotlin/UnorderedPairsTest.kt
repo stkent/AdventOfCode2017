@@ -1,6 +1,7 @@
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldThrow
 import io.kotlintest.specs.BehaviorSpec
+import org.apache.commons.collections4.multiset.HashMultiSet
 
 class UnorderedPairsTest : BehaviorSpec({
 
@@ -28,49 +29,49 @@ class UnorderedPairsTest : BehaviorSpec({
     }
   }
 
-  Given("a collection of size 2") {
+  Given("a collection of size 2 with distinct elements") {
     val collection: Collection<Int> = listOf(4, 7)
 
     When("we ask for the unordered pairs of elements in that collection") {
       val unorderedPairs = collection.unorderedPairs()
 
       Then("the result should contain a single unordered pair containing the elements in the original collection") {
-        unorderedPairs shouldBe setOf(setOf(4, 7))
+        unorderedPairs shouldBe HashMultiSet(listOf(setOf(4, 7)))
       }
     }
   }
 
   Given("a collection of size 3") {
-    val collection: Collection<Int> = listOf(2, 5, 8)
+    val collection: Collection<Int> = listOf(2, 5, 5)
 
     When("we ask for the unordered pairs of elements in that collection") {
       val unorderedPairs = collection.unorderedPairs()
 
       Then("the result should contain all 3 expected pairs") {
-        unorderedPairs shouldBe setOf(
+        unorderedPairs shouldBe HashMultiSet(listOf(
             setOf(2, 5),
-            setOf(2, 8),
-            setOf(5, 8)
-        )
+            setOf(2, 5),
+            setOf(5, 5)
+        ))
       }
     }
   }
 
   Given("a collection of size 4") {
-    val collection: Collection<Int> = listOf(3, 6, 9, 11)
+    val collection: Collection<Int> = listOf(3, 6, 9, 9)
 
     When("we ask for the unordered pairs of elements in that collection") {
       val unorderedPairs = collection.unorderedPairs()
 
       Then("the result should contain all 6 expected pairs") {
-        unorderedPairs shouldBe setOf(
+        unorderedPairs shouldBe HashMultiSet(listOf(
             setOf(3, 6),
             setOf(3, 9),
-            setOf(3, 11),
+            setOf(3, 9),
             setOf(6, 9),
-            setOf(6, 11),
-            setOf(9, 11)
-        )
+            setOf(6, 9),
+            setOf(9, 9)
+        ))
       }
     }
   }

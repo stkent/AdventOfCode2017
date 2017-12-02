@@ -1,6 +1,7 @@
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldThrow
 import io.kotlintest.specs.BehaviorSpec
+import org.apache.commons.collections4.multiset.HashMultiSet
 
 class OrderedPairsTest : BehaviorSpec({
 
@@ -35,10 +36,10 @@ class OrderedPairsTest : BehaviorSpec({
       val orderedPairs = collection.orderedPairs()
 
       Then("the result should contain both the expected pairs") {
-        orderedPairs shouldBe setOf(
+        orderedPairs shouldBe HashMultiSet(listOf(
             Pair(4, 7),
             Pair(7, 4)
-        )
+        ))
       }
     }
   }
@@ -50,14 +51,14 @@ class OrderedPairsTest : BehaviorSpec({
       val orderedPairs = collection.orderedPairs()
 
       Then("the result should contain all 6 expected pairs") {
-        orderedPairs shouldBe setOf(
+        orderedPairs shouldBe HashMultiSet(listOf(
             Pair(2, 5),
             Pair(2, 8),
             Pair(5, 8),
             Pair(5, 2),
             Pair(8, 2),
             Pair(8, 5)
-        )
+        ))
       }
     }
   }
@@ -69,7 +70,7 @@ class OrderedPairsTest : BehaviorSpec({
       val orderedPairs = collection.orderedPairs()
 
       Then("the result should contain all 12 expected pairs") {
-        orderedPairs shouldBe setOf(
+        orderedPairs shouldBe HashMultiSet(listOf(
             Pair( 3,  6),
             Pair( 3,  9),
             Pair( 3, 11),
@@ -82,7 +83,7 @@ class OrderedPairsTest : BehaviorSpec({
             Pair( 9,  6),
             Pair(11,  6),
             Pair(11,  9)
-        )
+        ))
       }
     }
   }
