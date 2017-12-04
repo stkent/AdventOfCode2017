@@ -1,7 +1,6 @@
-import org.apache.commons.collections4.Bag
+@file:Suppress("unused")
+
 import org.apache.commons.collections4.MultiSet
-import org.apache.commons.collections4.bag.HashBag
-import org.apache.commons.collections4.bag.TreeBag
 import org.apache.commons.collections4.multiset.HashMultiSet
 
 fun <E> Collection<E>.permutations(): Set<List<E>> {
@@ -22,7 +21,7 @@ fun <E> Collection<E>.permutations(): Set<List<E>> {
   return result
 }
 
-fun <E> Collection<E>.elementCounts(): Map<E, Int> = groupBy({ it }).mapValues { it.value.size }
+fun <E> Collection<E>.elementCounts(): Map<E, Int> = groupBy { it }.mapValues { it.value.size }
 
 fun <E> Collection<E>.highestFrequencyElements(): Set<E> {
   if (isEmpty()) return emptySet()
@@ -78,4 +77,19 @@ fun <E> Collection<E>.orderedPairs(): MultiSet<Pair<E, E>> {
   }
 
   return result
+}
+
+fun <T> Collection<T>.allDistinct(): Boolean {
+  check(isNotEmpty()) { "This method cannot be called on empty Collections." }
+  return size == toSet().size
+}
+
+fun <T> Collection<T>.allMatch(): Boolean {
+  check(isNotEmpty()) { "This method cannot be called on empty Collections." }
+  return toSet().size == 1
+}
+
+fun <T> Collection<T>.anyMatch(): Boolean {
+  check(isNotEmpty()) { "This method cannot be called on empty Collections." }
+  return !allDistinct()
 }
