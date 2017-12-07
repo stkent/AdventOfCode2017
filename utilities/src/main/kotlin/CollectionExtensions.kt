@@ -89,6 +89,11 @@ fun <T> Collection<T>.allMatch(): Boolean {
   return toSet().size == 1
 }
 
+fun <T> Collection<T>.anyDistinct(): Boolean {
+  check(isNotEmpty()) { "This method cannot be called on empty Collections." }
+  return !allMatch()
+}
+
 fun <T> Collection<T>.anyMatch(): Boolean {
   check(isNotEmpty()) { "This method cannot be called on empty Collections." }
   return !allDistinct()

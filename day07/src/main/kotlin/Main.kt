@@ -5,10 +5,13 @@ class Main {
   companion object {
     @JvmStatic
     fun main(args: Array<String>) {
-//      val input = File(Main::class.java.getResource("input.txt").file).readLines()
-//      val input =
+      val input = File(Main::class.java.getResource("input.txt").file).readLines()
+      val tower = Tower(input)
 
+      println("Part 1 solution: ${tower.rootProgramName}")
+      println("Part 2 solution: ${tower.computeWeightAdjustment()}")
     }
+
   }
 
 }
