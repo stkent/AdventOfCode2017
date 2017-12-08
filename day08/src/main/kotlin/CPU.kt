@@ -78,7 +78,8 @@ class CPU {
         registers.put(instruction.targetReg, instruction.op.binOp(currVal, instruction.value))
       }
 
-      maxExecValue = max(maxExecValue, registers.values.max()!!)
+      // Need to supply a default max value since MutableMap::withDefault does not supply defaults to max.
+      maxExecValue = max(maxExecValue, registers.values.max() ?: 0)
     }
 
     val maxEndValue = registers.values.max()!!
