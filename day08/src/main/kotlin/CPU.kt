@@ -55,19 +55,19 @@ class CPU {
 
   private val registers = mutableMapOf<String, Int>().withDefault { 0 }
 
-  fun execute(input: List<String>): ExecutionResult {
+  fun execute(rawInstructions: List<String>): ExecutionResult {
     val regex = Regex("^(\\w+) (inc|dec) (-?\\d+) if (\\w+) ([^ ]+) (-?\\d+)$")
 
-    val instructions = input.map {
-      val i = regex.matchEntire(it)!!.groupValues.drop(1)
+    val instructions = rawInstructions.map { string ->
+      val components = regex.matchEntire(string)!!.groupValues.drop(1)
 
       return@map Instruction(
-          targetReg  = i[0],
-          op         = Instruction.Op.fromString(i[1])!!,
-          value      = i[2].toInt(),
-          compLhsReg = i[3],
-          comparison = Instruction.Comparison.fromString(i[4])!!,
-          compRhsVal = i[5].toInt())
+          targetReg  = components[0],
+          op         = Instruction.Op.fromString(components[1])!!,
+          value      = components[2].toInt(),
+          compLhsReg = components[3],
+          comparison = Instruction.Comparison.fromString(components[4])!!,
+          compRhsVal = components[5].toInt())
     }
 
     var maxExecValue = 0
