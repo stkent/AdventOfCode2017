@@ -21,7 +21,7 @@ fun <E> Collection<E>.permutations(): Set<List<E>> {
   return result
 }
 
-fun <E> Collection<E>.elementCounts(): Map<E, Int> = groupBy { it }.mapValues { it.value.size }
+fun <E> Collection<E>.elementCounts(): Map<E, Int> = groupingBy { it }.eachCount()
 
 fun <E> Collection<E>.highestFrequencyElements(): Set<E> {
   if (isEmpty()) return emptySet()
