@@ -1,30 +1,18 @@
 import java.io.File
 
-typealias Pipe = Pair<Int, Int>
-
 class Main {
 
   companion object {
-    private val inputRegex = Regex("^(\\d+) <-> (.*)$")
-
     @JvmStatic
     fun main(args: Array<String>) {
-      val input = File(Main::class.java.getResource("input.txt").file).readLines()
+      val edgeStrings = File(Main::class.java.getResource("input.txt").file).readLines()
+      val graphGrouper = GraphGrouper()
 
-      // bug: this is required here
-      val pipes = input.flatMap(this::stringToPipes)
-                       .groupBy(Pipe::first) { pipe -> pipe.second }
+      val groups = graphGrouper.computeGroups(edgeStrings)
+      val group0 = groups.first { group -> group.contains(0) }
 
-      println(pipes)
-    }
-
-    private fun stringToPipes(string: String): List<Pipe> {
-      val groups = inputRegex.matchEntire(string)!!.groupValues.drop(1)
-
-      val startPipe = groups[0].toInt()
-      val endPipes  = groups[1].split(", ").map(String::toInt)
-
-      return endPipes.map { Pair(startPipe, it) }
+      println("Part 1 solution: ${group0.count()}")
+      println("Part 2 solution: ${groups.count()}")
     }
   }
 
