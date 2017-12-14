@@ -3,7 +3,7 @@ import kotlin.math.abs
 import kotlin.math.hypot
 
 @Suppress("MemberVisibilityCanPrivate", "unused")
-data class GridPoint(private val x: Int, private val y: Int) {
+data class GridPoint(val x: Int, val y: Int) {
 
   fun step(direction: Direction) = when (direction) {
     NORTH -> GridPoint(x, y + 1)
