@@ -29,4 +29,11 @@ data class GridPoint(val x: Int, val y: Int) {
   fun l1DistanceTo(target: GridPoint) = abs(x - target.x) + abs(y - target.y)
   fun l2DistanceTo(target: GridPoint) = hypot((x - target.x).toDouble(), (y - target.y).toDouble())
 
+  fun inBounds(
+      xBounds: IntRange = Int.MIN_VALUE..Int.MAX_VALUE,
+      yBounds: IntRange = Int.MIN_VALUE..Int.MAX_VALUE): Boolean {
+
+    return x in xBounds && y in yBounds
+  }
+
 }

@@ -1,3 +1,4 @@
+// Copied from day 10 solution:
 data class KnotResult(val list: List<Int>, val index: Int, val skip: Int)
 
 class KnotHasher {
@@ -23,7 +24,7 @@ class KnotHasher {
     return finalHash.joinToString(separator = "")
   }
 
-  fun knot(
+  private fun knot(
       lengths: List<Int>,
       inList:  List<Int> = (0..255).toList(),
       inIndex: Int = 0,
