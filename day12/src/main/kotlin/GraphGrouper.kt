@@ -29,7 +29,7 @@ class GraphGrouper {
 
     unseenIds.addFirst(id)
 
-    while (unseenIds.peekFirst() != null) {
+    while (unseenIds.isNotEmpty()) {
       val startId      = unseenIds.pollFirst()
       val unseenEndIds = pipeMap[startId]!!.filterNot { seenIds.contains(it) }
 
