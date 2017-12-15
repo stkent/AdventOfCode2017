@@ -1,50 +1,23 @@
-import java.math.BigInteger
+import Generator.GeneratorA
+import Generator.GeneratorB
 
 class Main {
 
   companion object {
     @JvmStatic
     fun main(args: Array<String>) {
-//      Generator A starts with 722
-//      Generator B starts with 354
+      val judge = Judge()
 
-      var judgeCount = 0
+      val part1GeneratorA = GeneratorA(seed = 722, accept = { true })
+      val part1GeneratorB = GeneratorB(seed = 354, accept = { true })
 
-      val genA = GeneratorA(16807, 722)
-      val genB = GeneratorB(48271, 354)
+      println("Part 1 solution: ${judge.countMatches(part1GeneratorA, part1GeneratorB, 40_000_000)}")
 
-      repeat(5000000) {
-        val a = Integer.toBinaryString(genA.next().toInt()).takeLast(16)
-        val b = Integer.toBinaryString(genB.next().toInt()).takeLast(16)
+      val part2GeneratorA = GeneratorA(seed = 722, accept = { it.rem(4) == 0L })
+      val part2GeneratorB = GeneratorB(seed = 354, accept = { it.rem(8) == 0L })
 
-        if (a == b) judgeCount += 1
-      }
-
-      println(judgeCount)
+      println("Part 2 solution: ${judge.countMatches(part2GeneratorA, part2GeneratorB, 5_000_000)}")
     }
-  }
-
-}
-
-
-class GeneratorA(val factor: Int, init: Int) {
-
-  var current: BigInteger = init.toBigInteger()
-
-  fun next(): BigInteger {
-    current = (current * factor.toBigInteger()).rem(BigInteger.valueOf(2147483647))
-    return if (current.rem(BigInteger.valueOf(4)) == BigInteger.ZERO) current else next()
-  }
-
-}
-
-class GeneratorB(val factor: Int, init: Int) {
-
-  var current: BigInteger = init.toBigInteger()
-
-  fun next(): BigInteger {
-    current = (current * factor.toBigInteger()).rem(BigInteger.valueOf(2147483647))
-    return if (current.rem(BigInteger.valueOf(8)) == BigInteger.ZERO) current else next()
   }
 
 }
