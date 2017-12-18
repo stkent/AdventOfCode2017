@@ -7,85 +7,172 @@ class Main {
     fun main(args: Array<String>) {
       val input = File(Main::class.java.getResource("input.txt").file).readLines()
 
-      val registers = mutableMapOf<Char, Long>()
+//      val input = listOf(
+//          "snd 1",
+//          "snd 2",
+//          "snd p",
+//          "rcv a",
+//          "rcv b",
+//          "rcv c",
+//          "rcv d"
+//      )
+//
+      val coord = Coordinator()
+      coord.executeInstructions(input)
+    }
+  }
 
-      ('a'..'z').forEach { registers.put(it, 0) }
+}
 
-      var index = 0
-      var run = true
+sealed class Result {
+  class Success : Result()
+  class Send(val send: Long) : Result()
+  class Termination : Result()
+  class SoundRequired : Result()
+}
 
-      var lastSound: Long = -1
+class Coordinator {
 
-      while (run) {
-        val it = input[index]
+  private val computers = mapOf(0 to Computer(0), 1 to Computer(1))
 
-        val type = it.substring(0, 3)
-        val args = it.substring(4).split(' ')
+  fun executeInstructions(instructions: List<String>) {
+    val executingComputers = computers.toMutableMap()
+    val soundsToTransfer = mutableListOf<Long>()
 
-        println("$index: $it: $registers")
+    computers.values.forEach { it.instructions = instructions }
+    var executingComputer = 0
 
-        when (type) {
+    var soln = 0
 
-          "snd" -> {
-            lastSound = registers[args[0][0]]!!
+    var waiting = false
 
-            index += 1
-          }
+    loop@ while (true) {
+//      Thread.sleep(1000)
 
-          "set" -> {
-            val value = if (args[1][0].isLetter()) registers[args[1][0]]!! else args[1].toLong()
+      val result = computers[executingComputer]!!.executeNext()
 
-            registers.put(args[0][0], value)
-
-            index += 1
-          }
-
-          "add" -> {
-            val value = if (args[1][0].isLetter()) registers[args[1][0]]!! else args[1].toLong()
-
-            registers.put(args[0][0], registers[args[0][0]]!! + value)
-
-            index += 1
-          }
-
-          "mul" -> {
-            val value = if (args[1][0].isLetter()) registers[args[1][0]]!! else args[1].toLong()
-
-            println(args)
-            registers.put(args[0][0], registers[args[0][0]]!! * value)
-
-            index += 1
-          }
-
-          "mod" -> {
-            val value = if (args[1][0].isLetter()) registers[args[1][0]]!! else args[1].toLong()
-
-            registers.put(args[0][0], registers[args[0][0]]!!.rem(value))
-
-            index += 1
-          }
-
-          "rcv" -> {
-            val value = if (args[0][0].isLetter()) registers[args[0][0]]!! else args[0].toLong()
-
-            if (value > 0) {
-              println("part 1: $lastSound")
-              run = false
-            }
-
-            index += 1
-          }
-
-          "jgz" -> {
-            val value0 = if (args[0][0].isLetter()) registers[args[0][0]]!! else args[0].toLong()
-            val value1 = if (args[1][0].isLetter()) registers[args[1][0]]!! else args[1].toLong()
-
-            index += (if (value0 > 0L) { value1 } else { 1L }).toInt()
-          }
+      when (result) {
+        is Result.Success -> waiting = false
+        is Result.Send -> {
+          waiting = false
+          if (executingComputer == 1) soln++
+          soundsToTransfer.add(result.send)
         }
-
-        if (index < 0 || index >= input.size) run = false
+//        is Result.Termination -> {
+//          executingComputers.remove(executingComputer)
+//
+//          if (executingComputers.isEmpty()) {
+//            break@loop
+//          }
+//        }
+        is Result.SoundRequired -> {
+          if (waiting) {
+            println(soln)
+            break@loop
+          } else {
+            waiting = true
+          }
+          executingComputer = (executingComputer + 1).rem(2)
+          executingComputers[executingComputer]!!.enqueueSounds(soundsToTransfer)
+          soundsToTransfer.clear()
+        }
       }
+    }
+  }
+
+}
+
+class Computer(private val id: Long) {
+
+  private val registers = mutableMapOf<Char, Long>()
+  private val receivedSounds = mutableListOf<Long>()
+  private var index = 0
+
+  lateinit var instructions: List<String>
+
+  init {
+    ('a'..'z').forEach { registers.put(it, 0) }
+    registers['p'] = id
+  }
+
+  fun enqueueSounds(sounds: List<Long>) {
+    receivedSounds.addAll(sounds)
+  }
+
+  fun executeNext(): Result {
+    val it = instructions[index]
+
+    val type = it.substring(0, 3)
+    val args = it.substring(4).split(' ')
+
+    println("id $id | instr: $index: $it | registers: $registers")
+
+    when (type) {
+      "snd" -> {
+        val value = if (args[0][0].isLetter()) registers[args[0][0]]!! else args[0].toLong()
+
+        index += 1
+        return if (index < 0 || index >= instructions.size) Result.Termination() else return Result.Send(value)
+      }
+
+      "set" -> {
+        val value = if (args[1][0].isLetter()) registers[args[1][0]]!! else args[1].toLong()
+
+        registers.put(args[0][0], value)
+
+        index += 1
+        return if (index < 0 || index >= instructions.size) Result.Termination() else return Result.Success()
+      }
+
+      "add" -> {
+        val value = if (args[1][0].isLetter()) registers[args[1][0]]!! else args[1].toLong()
+
+        registers.put(args[0][0], registers[args[0][0]]!! + value)
+
+        index += 1
+        return if (index < 0 || index >= instructions.size) Result.Termination() else return Result.Success()
+      }
+
+      "mul" -> {
+        val value = if (args[1][0].isLetter()) registers[args[1][0]]!! else args[1].toLong()
+
+        println(args)
+        registers.put(args[0][0], registers[args[0][0]]!! * value)
+
+        index += 1
+        return if (index < 0 || index >= instructions.size) Result.Termination() else return Result.Success()
+      }
+
+      "mod" -> {
+        val value = if (args[1][0].isLetter()) registers[args[1][0]]!! else args[1].toLong()
+
+        registers.put(args[0][0], registers[args[0][0]]!!.rem(value))
+
+        index += 1
+        return if (index < 0 || index >= instructions.size) Result.Termination() else return Result.Success()
+      }
+
+      "rcv" -> {
+        if (receivedSounds.isNotEmpty()) {
+          registers.put(args[0][0], receivedSounds.first())
+          receivedSounds.removeAt(0)
+          index += 1
+          return if (index < 0 || index >= instructions.size) Result.Termination() else return Result.Success()
+        } else {
+          return Result.SoundRequired()
+        }
+      }
+
+      "jgz" -> {
+        val value0 = if (args[0][0].isLetter()) registers[args[0][0]]!! else args[0].toLong()
+        val value1 = if (args[1][0].isLetter()) registers[args[1][0]]!! else args[1].toLong()
+
+        index += (if (value0 > 0L) { value1 } else { 1L }).toInt()
+
+        return if (index < 0 || index >= instructions.size) Result.Termination() else Result.Success()
+      }
+
+      else -> throw IllegalArgumentException()
     }
   }
 
