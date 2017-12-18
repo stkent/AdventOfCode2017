@@ -1,3 +1,7 @@
+fun String.isLong() = isLong(radix = 10)
+
+fun String.isLong(radix: Int) = toLongOrNull(radix) != null
+
 // Rotates a String to the left.
 fun String.rotate(steps: Int): String {
   val nSteps = steps.nonNegativeRem(length)
