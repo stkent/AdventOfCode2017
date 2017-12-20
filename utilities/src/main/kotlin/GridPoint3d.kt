@@ -1,6 +1,7 @@
+@file:Suppress("unused", "MemberVisibilityCanPrivate")
+
 import kotlin.math.abs
 
-@Suppress("MemberVisibilityCanPrivate")
 data class GridPoint3d(val x: Int, val y: Int, val z: Int) {
 
   companion object {
@@ -12,5 +13,13 @@ data class GridPoint3d(val x: Int, val y: Int, val z: Int) {
   }
 
   fun l1DistanceTo(other: GridPoint3d) = abs(x - other.x) + abs(y - other.y) + abs(z - other.z)
+
+  fun inBounds(
+      xBounds: IntRange = Int.MIN_VALUE..Int.MAX_VALUE,
+      yBounds: IntRange = Int.MIN_VALUE..Int.MAX_VALUE,
+      zBounds: IntRange = Int.MIN_VALUE..Int.MAX_VALUE): Boolean {
+
+    return x in xBounds && y in yBounds && z in zBounds
+  }
 
 }

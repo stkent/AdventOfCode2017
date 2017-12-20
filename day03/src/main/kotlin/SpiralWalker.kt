@@ -1,6 +1,6 @@
 import Direction.SOUTH
 
-class SpiralWalker(center: GridPoint) {
+class SpiralWalker(center: GridPoint2d) {
 
   var currentGridPoint = center
   private var currentDirection = SOUTH

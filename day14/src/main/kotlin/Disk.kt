@@ -1,6 +1,6 @@
 import java.util.*
 
-typealias Square = GridPoint
+typealias Square = GridPoint2d
 
 class Disk(key: String) {
 

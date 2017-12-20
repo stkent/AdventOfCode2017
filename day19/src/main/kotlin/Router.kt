@@ -5,11 +5,11 @@ class Router {
   data class Result(val chars: String, val nSteps: Int)
 
   fun route(rawGrid: List<String>): Result {
-    val grid = mutableMapOf<GridPoint, Char>().withDefault { EMPTY_CHAR }
+    val grid = mutableMapOf<GridPoint2d, Char>().withDefault { EMPTY_CHAR }
 
     rawGrid.forEachIndexed { nRow, row ->
       row.forEachIndexed { nCol, value ->
-        grid.put(GridPoint(nCol, -nRow), value)
+        grid.put(GridPoint2d(nCol, -nRow), value)
       }
     }
 
