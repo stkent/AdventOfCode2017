@@ -9,6 +9,8 @@ data class GridPoint2d(val x: Int, val y: Int) {
     val origin = GridPoint2d(0, 0)
   }
 
+  operator fun plus(other: GridVector2d) = GridPoint2d(x + other.x, y + other.y)
+
   fun step(direction: Direction) = when (direction) {
     NORTH -> GridPoint2d(x, y + 1)
     EAST  -> GridPoint2d(x + 1, y)
