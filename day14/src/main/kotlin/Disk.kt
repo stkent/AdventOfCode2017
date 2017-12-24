@@ -12,7 +12,7 @@ class Disk(key: String) {
 
     (0..127).map { rowNum -> "$key-$rowNum" }
             .map { rowKey -> hasher.hash(rowKey) }
-            .map (::rowHashToSquareStrings)
+            .map { hash -> rowHashToSquareStrings(hash) }
             .forEachIndexed { rowIndex, row ->
               row.forEachIndexed { colIndex, squareString ->
                 if (squareString == "1") allUsedSquares.add(Square(rowIndex, colIndex))

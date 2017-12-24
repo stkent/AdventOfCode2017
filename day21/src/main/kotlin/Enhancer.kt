@@ -1,5 +1,5 @@
 class Enhancer(rawTransforms: List<String>) {
-  
+
   private val transforms = rawTransforms
       .flatMap { rawTransform ->
         val rows = rawTransform.split(" => ").map { it.split('/') }
@@ -19,9 +19,9 @@ class Enhancer(rawTransforms: List<String>) {
     val splitSize = if (currentImage.size.rem(2) == 0) 2 else 3
 
     val newRows = currentImage.rows.chunked(splitSize)
-                                   .map(::patternsFromStrings)
+                                   .map { patternsFromStrings(it) }
                                    .map { patterns -> patterns.map { transforms[it]!! } }
-                                   .flatMap(::stringsFromPatterns)
+                                   .flatMap { stringsFromPatterns(it) }
 
     return Pattern(newRows)
   }

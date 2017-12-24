@@ -6,10 +6,7 @@ class JudgeTest : BehaviorSpec({
   Given("a judge") {
     val judge = Judge()
 
-    When("""- we seed generator A with 65 and generator B with 8921,
-            - we accept all generated values, and
-            - we count matches in the first 40 million pairs""") {
-
+    When("we seed generator A with 65 and generator B with 8921, we accept all generated values, and count matches in the first 40 million pairs") {
       val count = judge.countMatches(
           Generator.GeneratorA(seed = 65,   accept = { true }),
           Generator.GeneratorB(seed = 8921, accept = { true }),
@@ -24,10 +21,7 @@ class JudgeTest : BehaviorSpec({
   Given("a judge") {
     val judge = Judge()
 
-    When("""- we seed generator A with 65 and generator B with 8921,
-            - we accept specific generated values, and
-            - we count matches in the first 5 million pairs""") {
-
+    When("we seed generator A with 65 and generator B with 8921, accept specific generated values, and count matches in the first 5 million pairs") {
       val count = judge.countMatches(
           Generator.GeneratorA(seed = 65,   accept = { it.rem(4) == 0L }),
           Generator.GeneratorB(seed = 8921, accept = { it.rem(8) == 0L }),

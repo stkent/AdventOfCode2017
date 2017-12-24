@@ -1,20 +1,18 @@
-import Direction.SOUTH
-
 class SpiralWalker(center: GridPoint2d) {
 
   var currentGridPoint = center
-  private var currentDirection = SOUTH
+  private var currentDirection = GridVector2d(0, -1)
   private val visitedPoints = mutableSetOf(currentGridPoint)
 
   fun step() {
-    val pointToLeft = currentGridPoint.step(currentDirection.turnLeft())
+    val pointToLeft = currentGridPoint + currentDirection.left90()
     val visitedPointToLeft = visitedPoints.contains(pointToLeft)
 
     if (!visitedPointToLeft) {
-      currentDirection = currentDirection.turnLeft()
+      currentDirection = currentDirection.left90()
       currentGridPoint = pointToLeft
     } else {
-      currentGridPoint = currentGridPoint.step(currentDirection)
+      currentGridPoint += currentDirection
     }
 
     visitedPoints.add(currentGridPoint)
