@@ -34,6 +34,14 @@ subprojects {
         kotlinOptions.jvmTarget = "$jvm_target_version"
     }
 
+    configurations.all {
+        resolutionStrategy {
+            forcedModules = [
+                    "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+            ]
+        }
+    }
+
     // Configuration common to all daily solution subprojects ------------------------------------------------------- //
 
     if (name.startsWith('day')) {
