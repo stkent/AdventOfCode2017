@@ -6,6 +6,7 @@ class Main {
     @JvmStatic
     fun main(args: Array<String>) {
       val input = File(Main::class.java.getResource("input.txt").file).readLines()
+
       val machine = TuringMachine(blueprint = input)
 
       println("Part 1 solution: ${machine.computeChecksum()}")

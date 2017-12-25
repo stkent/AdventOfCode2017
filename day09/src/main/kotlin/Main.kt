@@ -6,9 +6,9 @@ class Main {
     @JvmStatic
     fun main(args: Array<String>) {
       val input = File(Main::class.java.getResource("input.txt").file).readLines().first()
-      val processor = StreamProcessor()
 
-      val result = processor.processStream(input)
+      val processor = StreamProcessor()
+      val result = processor.processStream(stream = input)
 
       println("Part 1 solution: ${result.score}")
       println("Part 2 solution: ${result.garbageCount}")

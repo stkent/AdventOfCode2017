@@ -6,7 +6,8 @@ class Main {
     @JvmStatic
     fun main(args: Array<String>) {
       val input = File(Main::class.java.getResource("input.txt").file).readLines()
-      val enhancer = Enhancer(input)
+
+      val enhancer = Enhancer(rawTransforms = input)
       val seed = listOf(
           ".#.",
           "..#",

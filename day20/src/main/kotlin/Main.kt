@@ -6,6 +6,7 @@ class Main {
     @JvmStatic
     fun main(args: Array<String>) {
       val input = File(Main::class.java.getResource("input.txt").file).readLines()
+
       val swarm = Swarm(rawParticleStates = input)
 
       println("Part 1 solution: ${swarm.eventualClosest()}")

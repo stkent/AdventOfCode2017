@@ -6,9 +6,9 @@ class Main {
     @JvmStatic
     fun main(args: Array<String>) {
       val input = File(Main::class.java.getResource("input.txt").file).readLines()
-      val cpu = CPU()
 
-      val result = cpu.execute(input)
+      val cpu = CPU()
+      val result = cpu.execute(rawInstructions = input)
 
       println("Part 1 solution: ${result.maxEndValue}")
       println("Part 2 solution: ${result.maxExecValue}")
