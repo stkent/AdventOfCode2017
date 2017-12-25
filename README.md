@@ -26,6 +26,10 @@ Specific day, e.g. 14:
 
 ## Verifying Solutions
 
+All days:
+
+    ./gradlew run
+
 Specific day, e.g. 14:
 
     ./gradlew day14:run
