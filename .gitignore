@@ -1,7 +1,6 @@
 
 .idea/*
-!.idea/runConfigurations/
-!.idea/codeStyleSettings.xml
+!.idea/codeStyles/
 .gradle
 build/
 out/
